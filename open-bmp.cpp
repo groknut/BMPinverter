@@ -1,9 +1,8 @@
 
 
 #include <iostream>
-#include <cstdlib>
 #include <fstream>
-// #include <cstdint>
+#include <cstdint>
 
 struct BITMAP_FILEHEADER
 {
