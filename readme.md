@@ -1,5 +1,5 @@
 
-## BMP Inverter
+## open-bmp
 
-простая программа
+Learning how to work with `.bmp` files
 
