@@ -48,7 +48,6 @@ class OpenBMP
 private:
 	BITMAP_FILEHEADER fileHeader;
 	BITMAP_INFOHEADER infoHeader;
-	bool readFile(const std::string& filename);
 public:
 	OpenBMP(const std::string& filename);	
 	std::pair<int, int> shape();
