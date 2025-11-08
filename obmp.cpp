@@ -12,6 +12,7 @@ OpenBMP::OpenBMP(const std::string& filename)
 	in.read(
 		reinterpret_cast<char*>(&fileHeader), sizeof(fileHeader)		
 	);
+	
 	in.read(
 		reinterpret_cast<char*>(&infoHeader), sizeof(infoHeader) 
 	);
