@@ -67,12 +67,14 @@ public:
 	OpenBMP arith_invert();
 	OpenBMP bitwise_not();
 
+	// grayscale
 	void grayscale();
 	OpenBMP rgb2gray();
-	
-    void negativeGrayImage();
-    void Mirrorvertical();
-    void saveImage(const string& filename);
+
+	// mirror method
+	void mirror(const std::string& method);
+
+	void save(const std::string& filename);
 };
 
 class OpenError {};
