@@ -7,7 +7,7 @@ OpenBMP::OpenBMP(const std::string& filename)
 	std::ifstream in(filename, ios::binary);
 
 	if (!in.is_open())
-		throw OpenBMPError();
+		throw OpenError();
 
 	in.read(
 		reinterpret_cast<char*>(&fileHeader), sizeof(fileHeader)		
@@ -18,10 +18,10 @@ OpenBMP::OpenBMP(const std::string& filename)
 	);
 
 	if (fileHeader.bfTybe != 0x4D42)
-		throw OpenBMPError();
+		throw OpenError();
 
 	if (infoHeader.bitCount != 24)
-		throw OpenBMPFormatError();
+		throw FormatError();
         int width=infoHeader.width;
         int height=infoHeader.height;
         int rowSize=(width*3+3)& ~3;
@@ -35,13 +35,32 @@ OpenBMP::OpenBMP(const std::string& filename)
             in.seekg(padding,ios::cur);
         }
 }
-void OpenBMP::invertImage(){
-    for(auto& pixel:pixels){
-        pixel.red=255-pixel.red;
-        pixel.green=255-pixel.green;
-        pixel.blue=255-pixel.blue;
-    }
+
+void OpenBMP::invert(const std::string& method){
+
+	if (method == "arithmetic")
+	    for(auto& pixel:pixels){
+	        pixel.red=255-pixel.red;
+	        pixel.green=255-pixel.green;
+	        pixel.blue=255-pixel.blue;
+		}
+	else if (method == "bitwise_not")
+		for (auto& pxl: pixels)
+		{
+			pxl.red = ~pxl.red & 0xff;
+			pxl.green = ~pxl.green & 0xff;
+			pxl.blue = ~pxl.blue & 0xff;
+		}
+	else
+		throw NotFoundMethodError();
 }
+
+OpenBMP OpenBMP::arith_invert(){
+	OpenBMP obmp = *this;
+	obmp.invert("arithmetic");
+	return obmp;
+}
+
 void OpenBMP::negativeGrayImage(){
     for(auto& pixel:pixels){
         uint8_t transGray=AForRed*pixel.red+BForGreen*pixel.green+CForBlue*pixel.blue;
@@ -64,7 +83,7 @@ void OpenBMP::Mirrorvertical(){
 void OpenBMP::saveImage(const string& filename){
     std::ofstream out(filename,std::ios::binary);
     if(!out.is_open()){
-        throw OpenBMPError();
+        throw OpenError();
     }
     out.write(reinterpret_cast<char*>(&fileHeader),sizeof(fileHeader));
     out.write(reinterpret_cast<char*>(&infoHeader),sizeof(infoHeader));

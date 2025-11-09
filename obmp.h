@@ -41,6 +41,7 @@ struct BITMAP_COLORTABLE
 	uint8_t green;
 	uint8_t blue;	
 };
+
 #pragma pack(pop)
 
 class OpenBMP
@@ -49,21 +50,23 @@ private:
 	BITMAP_FILEHEADER fileHeader;
 	BITMAP_INFOHEADER infoHeader;
     vector<BITMAP_COLORTABLE> pixels;
-    float AForRed=0.299;
-    float BForGreen=0.587;
-    float CForBlue=0.114;
+    float AForRed = 0.299;
+    float BForGreen = 0.587;
+    float CForBlue = 0.114;
 
 public:
-	OpenBMP(const std::string& filename);	
+	OpenBMP(const std::string& filename);
 	std::pair<int, int> shape();
-    void invertImage();
+	OpenBMP arith_invert();
+	void invert(const std::string& method);
     void negativeGrayImage();
     void Mirrorvertical();
     void saveImage(const string& filename);
 };
 
-class OpenBMPError {};
-class OpenBMPFormatError {};
+class OpenError {};
+class FormatError {};
+class NotFoundMethodError {};
 
 ostream& operator << (ostream& out, const std::pair<int ,int>& shape);
 
