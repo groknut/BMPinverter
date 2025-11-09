@@ -58,6 +58,7 @@ public:
 	std::pair<int, int> shape();
     void invertImage();
     void negativeGrayImage();
+    void Mirrorvertical();
     void saveImage(const string& filename);
 };
 

@@ -50,6 +50,17 @@ void OpenBMP::negativeGrayImage(){
         pixel.blue=transGray;
     }
 }
+void OpenBMP::Mirrorvertical(){
+    int width=infoHeader.width;
+    int height=infoHeader.height;
+    for(int y=0;y<height;y++){
+        for(int x=0;x<width/2;x++){
+            int left_idx=y*width+x;
+            int right_idx=y*width+(width-1-x);
+            std::swap(pixels[left_idx],pixels[right_idx]);
+        }
+    }
+}
 void OpenBMP::saveImage(const string& filename){
     std::ofstream out(filename,std::ios::binary);
     if(!out.is_open()){
